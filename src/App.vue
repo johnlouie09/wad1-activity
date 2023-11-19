@@ -91,5 +91,27 @@
 
 
 <style>
+/* To set scrollbar width */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 9px;
+  border: 2px solid white; /* Use your background color instead of White */
+  background-clip: content-box;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 9px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 </style>

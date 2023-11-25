@@ -90,7 +90,7 @@
                         variant="outlined"
                     ></v-textarea>
                     <v-btn
-                        @click="addReply(submission, index)"
+                        @click="addReply(submission)"
                         elevation="2"
                         class="bg bg-primary"
                         variant="outlined"
@@ -143,7 +143,7 @@
                 // Increment the heart counter for the specified submission
                 this.submissions[index].heartCounter++;
             },
-            addReply(submission, index) {
+            addReply(submission) {
                 const newReplyText = submission.newReplyText;
 
                 if (newReplyText) {
@@ -168,10 +168,5 @@
 </script>
   
 <style scoped>
-    /* Style for the reply cards */
-    .v-card.mb-2 {
-        border-radius: 8px;
-        padding: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+
 </style>

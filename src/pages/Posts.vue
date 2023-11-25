@@ -34,9 +34,10 @@
             </v-row>
             <v-card-title>{{ submission.text }}</v-card-title>
 
-            <!-- Heart and Reply Buttons for Main Post -->
+            <!-- Heart, Reply, Update and Delete Buttons for Main Post -->
             <v-row class="ma-4">
                 <v-col class="text-right">
+                    <!-- Heart Button -->
                     <v-btn @click="incrementCounter(index)" color="red">
                         <v-icon>mdi-heart</v-icon>
                     </v-btn>
@@ -45,7 +46,17 @@
                     <!-- Reply Button -->
                     <v-btn class="ml-2" @click="addReply(submission, index)" color="primary">
                         <v-icon>mdi-reply</v-icon>
-                        <span class="ml-2">{{ submission.replyCounter }}</span>
+                    </v-btn>
+                    <span class="ml-2">{{ submission.replyCounter }}</span>
+
+                    <!-- Update Button -->
+                    <v-btn class="ml-2" @click="editPost(index)" color="primary">
+                        <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+
+                    <!-- Delete Button -->
+                    <v-btn class="ml-3" @click="deletePost(index)" color="error">
+                        <v-icon>mdi-delete</v-icon>
                     </v-btn>
                 </v-col>
             </v-row>
@@ -69,10 +80,21 @@
                     <!-- Heart Button for Replies -->
                     <v-row class="ma-4">
                         <v-col class="text-right">
+                            <!-- Heart Button -->
                             <v-btn @click="incrementReplyHeart(index, replyIndex)" color="red">
                                 <v-icon>mdi-heart</v-icon>
                             </v-btn>
                             <span class="ml-2">{{ reply.heartCounter }}</span>
+
+                            <!-- Update Button -->
+                            <v-btn class="ml-2" @click="editReply(index, replyIndex)" color="primary">
+                                <v-icon>mdi-pencil</v-icon>
+                            </v-btn>
+
+                            <!-- Delete Button -->
+                            <v-btn class="ml-3" @click="deleteReply(index, replyIndex)" color="error">
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
                         </v-col>
                     </v-row>
                 </v-card>
@@ -162,7 +184,38 @@
             },
             incrementReplyHeart(postIndex, replyIndex) {
                 this.submissions[postIndex].replies[replyIndex].heartCounter++;
-            }
+            },
+            editPost(index) {
+                // Implement logic to edit the main post
+                const newText = prompt('Edit post:', this.submissions[index].text);
+                if (newText !== null) {
+                    this.submissions[index].text = newText;
+                }
+            },
+
+            deletePost(index) {
+                // Implement logic to delete the main post
+                if (confirm('Are you sure you want to delete this post?')) {
+                    this.submissions.splice(index, 1);
+                }
+            },
+
+            editReply(postIndex, replyIndex) {
+                // Implement logic to edit the reply
+                const newReplyText = prompt('Edit reply:', this.submissions[postIndex].replies[replyIndex].text);
+                if (newReplyText !== null) {
+                    this.submissions[postIndex].replies[replyIndex].text = newReplyText;
+                }
+            },
+
+            deleteReply(postIndex, replyIndex) {
+                // Implement logic to delete the reply
+                if (confirm('Are you sure you want to delete this reply?')) {
+                    this.submissions[postIndex].replies.splice(replyIndex, 1);
+                    // Decrease the reply counter for the main post
+                    this.submissions[postIndex].replyCounter -= 1;
+                }
+            },
         }
     });
 </script>

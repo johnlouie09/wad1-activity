@@ -34,36 +34,6 @@
             </v-row>
             <v-card-title>{{ submission.text }}</v-card-title>
 
-            <!-- Display Replies as Cards at the Top -->
-            <v-row class="ma-4">
-                <v-col>
-                    <v-card v-for="(reply, replyIndex) in submission.replies" :key="replyIndex" class="mb-2">
-                        <v-row align="center" class="mt-1">
-                            <v-col cols="auto">
-                                <v-icon color="primary">mdi-account</v-icon>
-                            </v-col>
-                            <v-spacer>{{ reply.name }}</v-spacer>
-                            <v-col>
-                                <v-card-subtitle class="text-h6 text-right">
-                                    {{ reply.dateTime }}
-                                </v-card-subtitle>
-                            </v-col>
-                        </v-row>
-                        <v-card-title>{{ reply.text }}</v-card-title>
-
-                        <!-- Heart Button for Replies -->
-                        <v-row class="ma-4">
-                            <v-col class="text-right">
-                                <v-btn @click="incrementReplyHeart(index, replyIndex)" color="red">
-                                    <v-icon>mdi-heart</v-icon>
-                                </v-btn>
-                                <span class="ml-2">{{ reply.heartCounter }}</span>
-                            </v-col>
-                        </v-row>
-                    </v-card>
-                </v-col>
-            </v-row>
-
             <!-- Heart and Reply Buttons for Main Post -->
             <v-row class="ma-4">
                 <v-col class="text-right">
@@ -73,15 +43,46 @@
                     <span class="ml-2">{{ submission.heartCounter }}</span>
 
                     <!-- Reply Button -->
-                    <v-btn class="ml-2" @click="toggleReplyForm(submission)" color="primary">
+                    <v-btn class="ml-2" @click="addReply(submission, index)" color="primary">
                         <v-icon>mdi-reply</v-icon>
                         <span class="ml-2">{{ submission.replyCounter }}</span>
                     </v-btn>
+                </v-col>
+            </v-row>
 
-                    <!-- Reply Form -->
+            <!-- Display Replies as Cards at the Top -->
+            <v-col>
+                <v-card v-for="(reply, replyIndex) in submission.replies" :key="replyIndex" class="mb-2">
+                    <v-row align="center" class="mt-1">
+                        <v-col cols="auto">
+                            <v-icon color="primary">mdi-account</v-icon>
+                        </v-col>
+                        <v-spacer>{{ reply.name }}</v-spacer>
+                        <v-col>
+                            <v-card-subtitle class="text-h6 text-right">
+                                {{ reply.dateTime }}
+                            </v-card-subtitle>
+                        </v-col>
+                    </v-row>
+                    <v-card-title>{{ reply.text }}</v-card-title>
+
+                    <!-- Heart Button for Replies -->
+                    <v-row class="ma-4">
+                        <v-col class="text-right">
+                            <v-btn @click="incrementReplyHeart(index, replyIndex)" color="red">
+                                <v-icon>mdi-heart</v-icon>
+                            </v-btn>
+                            <span class="ml-2">{{ reply.heartCounter }}</span>
+                        </v-col>
+                    </v-row>
+                </v-card>
+            </v-col>
+
+            <!-- Reply Form -->
+            <v-row class="ma-4">
+                <v-col class="text-right">
                     <v-textarea
                         class="mt-3"
-                        v-show="submission.showReplyForm"
                         v-model="submission.newReplyText"
                         rows="1"
                         row-height="15"
@@ -89,7 +90,6 @@
                         variant="outlined"
                     ></v-textarea>
                     <v-btn
-                        v-show="submission.showReplyForm"
                         @click="addReply(submission, index)"
                         elevation="2"
                         class="bg bg-primary"
@@ -132,7 +132,6 @@
                     dateTime: `${date} ${time}`,
                     text: this.inputText,
                     heartCounter: 0, // Initialize the counter for this submission
-                    showReplyForm: false, // Initialize the showReplyForm property
                     newReplyText: '', // Initialize the newReplyText property
                     replies: [], // Initialize the replies array
                 });
@@ -143,10 +142,6 @@
             incrementCounter(index) {
                 // Increment the heart counter for the specified submission
                 this.submissions[index].heartCounter++;
-            },
-            toggleReplyForm(submission) {
-                submission.showReplyForm = !submission.showReplyForm;
-                submission.newReplyText = ''; // Clear the reply input
             },
             addReply(submission, index) {
                 const newReplyText = submission.newReplyText;

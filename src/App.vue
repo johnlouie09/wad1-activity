@@ -47,6 +47,7 @@
             <app-main :page="page"/>
         </v-main>
     </v-layout>
+    <router-view></router-view>
 </template>
 
 

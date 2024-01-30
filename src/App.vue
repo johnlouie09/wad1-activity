@@ -31,7 +31,7 @@
                         rounded="xl"
                         class="my-1"
                         :active="sidebarItem.id === page"
-                        @click="page = sidebarItem.id"
+                        @click="navigate(sidebarItem.id)"
                     >
                         <template v-slot:prepend>
                             <v-icon :icon="sidebarItem.icon"></v-icon>
@@ -45,9 +45,9 @@
 
         <v-main>
             <app-main :page="page"/>
+            <router-view></router-view>
         </v-main>
     </v-layout>
-    <router-view></router-view>
 </template>
 
 
@@ -85,6 +85,10 @@
         methods: {
             toggleTheme() {
                 this.$vuetify.theme.global.name = this.isDark ? 'dark' : 'light';
+            },
+
+            navigate(page) {
+              this.$router.push({ name: page });
             }
         }
     });
